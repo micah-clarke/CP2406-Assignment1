@@ -1,8 +1,5 @@
 public class Car {
 
-    static void main (String[] argss){
-    }
-
     public Car(int length, int width, int xPosition, int yPosition, int speed){
         this.length = length;
         this.width = width;
