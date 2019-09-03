@@ -23,42 +23,51 @@ public class Main {
         }
 
         if (car.getyPosition() == road1.getStartYPosition()) {
-            double direction = ( Math.random( ) );
-                if (road1.getHeight() == 2) {
-                    while (trafficLight.isXGreen()) {
-                        car.stopX();
-                        waitTime += 1;
-                        System.out.println("Car is waiting at a traffic light on road " + road.getRoadID());
-                        if (waitTime == 10){
-                            trafficLight.changeX();
-                        }
-
+            double direction = (Math.random());
+            if (road1.getHeight() == 2) {
+                while (!trafficLight.isYGreen()) {
+                    car.stopX();
+                    waitTime += 1;
+                    System.out.println("Car is waiting at a traffic light on road " + road.getRoadID());
+                    if (waitTime == 10) {
+                        trafficLight.changeX();
+                        trafficLight.changeY();
                     }
-                    if (direction > 0.5) {
-                            car.setSpeed(-car.getSpeed());
-                            System.out.println("Car turned left onto road " + road1.getRoadID());
-                            while (car.getxPosition() <= road1.getXFinish() && car.getxPosition() >= road1.getStartXPosition()) {
-                                car.driveX();
-                                System.out.println("Car is at x: " + car.getxPosition() + " y: " + car.getyPosition() + " on road: " + road1.getRoadID());
-                            }
 
-                        } else {
-                            System.out.println("Car turned right onto road " + road1.getRoadID());
-                            while (car.getxPosition() <= road1.getXFinish()) {
-                                car.driveX();
-                                System.out.println("Car is at x: " + car.getxPosition() + " y: " + car.getyPosition() + " on road: " + road1.getRoadID());
-                            }
-
-
-                        }
                 }
-                else{
+                if (direction > 0.5) {
+                    car.setSpeed(-car.getSpeed());
+                    System.out.println("Car turned left onto road " + road1.getRoadID());
+                    while (car.getxPosition() <= road1.getXFinish() && car.getxPosition() >= road1.getStartXPosition()) {
+                        car.driveX();
+                        System.out.println("Car is at x: " + car.getxPosition() + " y: " + car.getyPosition() + " on road: " + road1.getRoadID());
+                    }
+
+                } else {
+                    System.out.println("Car turned right onto road " + road1.getRoadID());
+                    while (car.getxPosition() <= road1.getXFinish()) {
+                        car.driveX();
+                        System.out.println("Car is at x: " + car.getxPosition() + " y: " + car.getyPosition() + " on road: " + road1.getRoadID());
+                    }
+
+
+                }
+            } else {
+                while (!trafficLight.isYGreen()) {
+                    car.stopX();
+                    waitTime += 1;
+                    System.out.println("Car is waiting at a traffic light on road " + road.getRoadID());
+                    if (waitTime == 10) {
+                        trafficLight.changeX();
+                        trafficLight.changeY();
+                    }
                     System.out.println("Car continued onto road " + road1.getRoadID());
                     while (car.getyPosition() <= road1.getYFinish() && car.getyPosition() >= road1.getStartYPosition())
-                    car.driveY();
+                        car.driveY();
                 }
-        }
+            }
 
+        }
     }
 }
 
