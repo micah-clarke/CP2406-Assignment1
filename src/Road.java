@@ -65,7 +65,5 @@ public class Road {
     public int getYFinish(){
         return (getStartYPosition() + height);
     }
-    static void main (String[] args) {
 
-    }
 }

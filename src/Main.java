@@ -23,7 +23,7 @@ public class Main {
         }
 
         if (car.getyPosition() == road1.getStartYPosition()) {
-            double direction = ( + Math.random( ) );
+            double direction = ( Math.random( ) );
                 if (road1.getHeight() == 2) {
                     while (trafficLight.isXGreen()) {
                         car.stopX();
@@ -34,7 +34,7 @@ public class Main {
                         }
 
                     }
-                        if (direction > 0.5) {
+                    if (direction > 0.5) {
                             car.setSpeed(-car.getSpeed());
                             System.out.println("Car turned left onto road " + road1.getRoadID());
                             while (car.getxPosition() <= road1.getXFinish() && car.getxPosition() >= road1.getStartXPosition()) {
