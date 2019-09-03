@@ -41,4 +41,17 @@ public class TrafficLight {
         return isXGreen;
     }
 
+    boolean changeY(){
+        if (isYGreen()){
+            isYGreen = false;
+            System.out.println("X direction is now Red\nY direction is now Green");
+        }
+        else{
+            isYGreen = true;
+            System.out.println("X direction is now Green\nY direction is now Red");
+        }
+
+        return isYGreen;
+    }
+
 }
