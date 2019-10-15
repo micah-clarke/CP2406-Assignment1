@@ -2,8 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 
 public class Assignment2 extends JFrame implements ActionListener{
@@ -13,76 +11,9 @@ public class Assignment2 extends JFrame implements ActionListener{
     private JButton startRun = new JButton("Start simulation");
     private JButton saveRoads = new JButton("Save Roads");
     private JFrame addingRoads = new JFrame("Roads");
+    private static JPanel allOfTheRoads = new JPanel();
     private JLabel output = new JLabel();
-    private int clickNumber = 1;
-    private int startRoadX;
-    private int startRoadY;
-    private int endRoadX;
-    private int endRoadY;
-    private RoadEditorPanel roadEditorPanel = new RoadEditorPanel();
-
-    public class RoadEditorPanel extends JFrame {
-        RoadEditorPanel(){
-            super("Road Editor");
-            setSize(600, 600);
-            JPanel roadEditorPanel = new JPanel();
-            roadEditorPanel.setLayout(new BorderLayout());
-            roadEditorPanel.setSize(500, 500);
-            roadEditorPanel.setBackground(Color.WHITE);
-            JButton saveEditedRoads = new JButton("Save Roads");
-            add(saveEditedRoads, "North");
-            saveEditedRoads.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    setVisible(false);
-                    clickNumber = 1;
-                }
-            });
-            roadEditorPanel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
-                    if(isVisible()){
-                        {
-                            if(clickNumber == 1){
-                                startRoadX = e.getX();
-                                startRoadY = e.getY();
-                                System.out.println("Click one is at " + startRoadX + ", " + startRoadY);
-                            }
-                            if(clickNumber == 2){
-                                endRoadX = e.getX();
-                                endRoadY = e.getY();
-
-                                System.out.println("Click two is at " + endRoadX + ", " + endRoadY);
-                            }
-                            if(clickNumber >= 2){
-                                clickNumber = 0;
-                            }
-                            clickNumber +=1;
-
-
-
-
-                        }
-                    }
-                }
-            });
-            add(roadEditorPanel);
-
-            boolean isVertical = Math.abs(startRoadX - endRoadX) > Math.abs(startRoadY = endRoadY);
-
-            if(isVertical){
-                Road road = new Road(startRoadX, startRoadY, Math.abs(startRoadX - endRoadX), 3, "1");
-            }
-            else{
-                Road road = new Road(startRoadX, startRoadY,3 ,  Math.abs(startRoadY - endRoadY), "1");
-            }
-
-
-        }
-
-
-    }
+    private static DrawRoad drawRoad = new DrawRoad();
 
     private Assignment2(){
         setTitle("Assignment 2");
@@ -104,13 +35,17 @@ public class Assignment2 extends JFrame implements ActionListener{
         startRun.setVisible(true);
         runMode.setVisible(true);
         newRoad.setVisible(false);
+        drawRoad.setVisible(false);
 
 
     }
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        output.setSize(500, 500);
+//        output.setSize(500, 500);
+        allOfTheRoads.setSize(500,500);
+        add(allOfTheRoads, "Center");
+
         output.add(new JLabel("Please work"));
 
         if(source == editMode){
@@ -121,11 +56,14 @@ public class Assignment2 extends JFrame implements ActionListener{
 
         }
         else if(source == newRoad){
-            roadEditorPanel.setVisible(true);
-            output.add(new JLabel("Bazinga"));
+
+            drawRoad.setVisible(true);
+            System.out.println("1 start x " + drawRoad.getPointStartX() + " Start y " + drawRoad.getPointStartY() + " end x " + drawRoad.getFinalEndX() + " end y "+ drawRoad.getFinalEndY());
+            System.out.println(drawRoad.getPointStartX()+ drawRoad.getPointStartY()+ drawRoad.getFinalEndX()+ drawRoad.getFinalEndY());
             System.out.println("Pressed new road");
 
         }
+
         else if(source == saveRoads){
             startRun.setVisible(true);
             runMode.setVisible(true);
@@ -142,8 +80,14 @@ public class Assignment2 extends JFrame implements ActionListener{
         }
     }
 
+    static void reDraw()
+    {
+        allOfTheRoads.getGraphics().drawLine(drawRoad.getPointStartX(), drawRoad.getPointStartY(), drawRoad.getFinalEndX(), drawRoad.getFinalEndY());
+    }
 
-
+    public void paintComponent(Graphics g){
+        super.paintComponents(g);
+    }
 
     public static void main (String[] args){
         Assignment2 assignment2 = new Assignment2();
