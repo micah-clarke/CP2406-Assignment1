@@ -200,7 +200,7 @@ public class Assignment2 extends JFrame implements ActionListener {
                         xIntersect = currentRoad.getStartXPosition();
                         Crossroads crossroads = new Crossroads(xIntersect, yIntersect);
                         crossroadList.add(crossroads);
-                    } else if (selectedRoad.getStartYPosition() >= currentRoad.getStartYPosition() && selectedRoad.getYFinish() <= currentRoad.getStartYPosition()) {
+                    } else if (selectedRoad.getStartYPosition() <= currentRoad.getStartYPosition() && selectedRoad.getYFinish() >= currentRoad.getStartYPosition()) {
                         yIntersect = currentRoad.getStartYPosition();
                         xIntersect = selectedRoad.getStartXPosition();
                         Crossroads crossroads = new Crossroads(xIntersect, yIntersect);
