@@ -2,19 +2,18 @@ public class Road {
 
 
 
-    public Road(int startXPosition, int startYPosition, int length, int height, String roadID){
+    public Road(int startXPosition, int startYPosition, int length, int height, int roadID){
         this.startXPosition = startXPosition;
         this.startYPosition = startYPosition;
         this.height = height;
         this.length = length;
-        this.roadID = roadID;
 
     }
 
     private int startXPosition;
     private int startYPosition;
 
-    public int getLength() {
+    int getLength() {
         return length;
     }
 
@@ -22,7 +21,7 @@ public class Road {
         this.length = length;
     }
 
-    public int getHeight() {
+    int getHeight() {
         return height;
     }
 
@@ -33,7 +32,7 @@ public class Road {
     private int length;
     private int height;
 
-    public String getRoadID() {
+    String getRoadID() {
         return roadID;
     }
 
@@ -43,7 +42,7 @@ public class Road {
 
     private String roadID;
 
-    public int getStartXPosition() {
+    int getStartXPosition() {
         return startXPosition;
     }
 
@@ -51,7 +50,7 @@ public class Road {
         this.startXPosition = startXPosition;
     }
 
-    public int getStartYPosition() {
+    int getStartYPosition() {
         return startYPosition;
     }
 
@@ -59,10 +58,11 @@ public class Road {
         this.startYPosition = startYPosition;
     }
 
-    public int getXFinish(){
+    int getXFinish(){
         return startXPosition + length;
     }
-    public int getYFinish(){
+    int getYFinish(){
         return startYPosition + height;
     }
+
 }

@@ -4,9 +4,9 @@ public class Main {
 
     public static void main(String args[]) {
 
-        Road road = new Road(2, 10, 5, 0, "01");
-        Car car = new Car(2, 1, road.getStartXPosition(), road.getStartYPosition(), 1);
-        Road road1 = new Road(10, 2, 0, 11, "02");
+        Road road = new Road(2, 10, 5, 0, 1);
+        Car car = new Car(2, 1, road.getStartXPosition(), road.getStartYPosition(), 1, 1);
+        Road road1 = new Road(10, 2, 0, 11, 2);
         TrafficLight trafficLight = new TrafficLight(true, false);
         int waitTime = 0;
 
@@ -66,6 +66,8 @@ public class Main {
                         car.driveY();
                 }
             }
+
+
 
         }
     }

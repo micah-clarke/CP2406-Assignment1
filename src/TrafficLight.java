@@ -12,7 +12,7 @@ public class TrafficLight {
     private boolean isYGreen;
 
 
-    public boolean isXGreen() {
+    boolean isXGreen() {
         return isXGreen;
     }
 
@@ -20,7 +20,7 @@ public class TrafficLight {
         isXGreen = XGreen;
     }
 
-    public boolean isYGreen() {
+    boolean isYGreen() {
         return isYGreen;
     }
 
@@ -28,7 +28,7 @@ public class TrafficLight {
         isYGreen = YGreen;
     }
 
-    boolean changeX(){
+    void changeX(){
         if (isXGreen()){
             isXGreen = false;
             System.out.println("X direction is now Red\nY direction is now Green");
@@ -38,10 +38,9 @@ public class TrafficLight {
             System.out.println("X direction is now Green\nY direction is now Red");
         }
 
-        return isXGreen;
     }
 
-    boolean changeY(){
+    void changeY(){
         if (isYGreen()){
             isYGreen = false;
             System.out.println("X direction is now Red\nY direction is now Green");
@@ -51,7 +50,6 @@ public class TrafficLight {
             System.out.println("X direction is now Green\nY direction is now Red");
         }
 
-        return isYGreen;
     }
 
 }

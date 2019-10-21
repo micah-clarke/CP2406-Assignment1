@@ -1,11 +1,12 @@
 public class Car {
 
-    public Car(int length, int width, int xPosition, int yPosition, int speed){
+    public Car(int length, int width, int xPosition, int yPosition, double speed, int carID){
         this.length = length;
         this.width = width;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.speed = speed;
+        this.carID = carID;
     }
 
 
@@ -14,11 +15,21 @@ public class Car {
     private int yPosition;
     private int length;
     private int width;
-    private int speed = 1;
+    private double speed = 1;
+
+    public int getCarID() {
+        return carID;
+    }
+
+    public void setCarID(int carID) {
+        this.carID = carID;
+    }
+
+    private int carID;
 
 
 
-    public int getxPosition() {
+    int getxPosition() {
         return xPosition;
     }
 
@@ -26,7 +37,7 @@ public class Car {
         this.xPosition = xPosition;
     }
 
-    public int getyPosition() {
+    int getyPosition() {
         return yPosition;
     }
 
@@ -34,7 +45,7 @@ public class Car {
         this.yPosition = yPosition;
     }
 
-    public int getLength() {
+    int getLength() {
         return length;
     }
 
@@ -42,7 +53,7 @@ public class Car {
         this.length = length;
     }
 
-    public int getWidth() {
+    int getWidth() {
         return width;
     }
 
@@ -50,27 +61,24 @@ public class Car {
         this.width = width;
     }
 
-    public int getSpeed() {
+    double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(int speed) {
+    void setSpeed(double speed) {
         this.speed = speed;
     }
 
 
-  int driveY(){
+  void driveY(){
         yPosition += speed;
-        return yPosition;
   }
 
-  int driveX(){
+  void driveX(){
         xPosition += speed;
-        return xPosition;
   }
 
-  int stopX(){
-        return xPosition;
+  void stopX(){
   }
 
   int stopY(){
