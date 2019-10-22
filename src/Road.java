@@ -12,7 +12,6 @@ public class Road {
 
     private int startXPosition;
     private int startYPosition;
-
     int getLength() {
         return length;
     }

@@ -19,6 +19,9 @@ public class Assignment2 extends JFrame implements ActionListener {
     private static ArrayList<Road> uniqueSpawnList = new ArrayList<>();
     private int carID = 1;
     private int spawnRoadID = 1;
+    private boolean keepDriving;
+
+
 
 
     private Assignment2() {
@@ -31,14 +34,17 @@ public class Assignment2 extends JFrame implements ActionListener {
         runMode.setPreferredSize(new Dimension(100, 40));
         startRun.setPreferredSize(new Dimension(100, 40));
         saveRoads.setPreferredSize(new Dimension(100, 40));
+        JButton nextStep = new JButton("Next step");
+        nextStep.setPreferredSize(new Dimension(10,10));
 
 
         add(newRoad, "West");
         add(editMode, "East");
         add(runMode, "North");
         add(startRun, "South");
+//        add(nextStep, "Center");
+
         JLabel output = new JLabel();
-        add(output, "Center");
         add(saveRoads, "North");
         saveRoads.setVisible(false);
         newRoad.addActionListener(this);
@@ -51,6 +57,7 @@ public class Assignment2 extends JFrame implements ActionListener {
         runMode.setVisible(true);
         newRoad.setVisible(false);
         drawRoad.setVisible(false);
+        nextStep.setVisible(true);
 
 
     }
@@ -103,51 +110,102 @@ public class Assignment2 extends JFrame implements ActionListener {
             }
             getCrossroads();
 
-            System.out.println("Crossroad list: " + crossroadList);
+            for (Car car : cars) {
+                System.out.println("Car x position is: " + car.getxPosition());
+            }
+//            System.out.println("Unique spawn list is: " + uniqueSpawnList);
+//            System.out.println("FROM ASSIGNMENT 2");
+//            for (Road road : roads) {
+//                System.out.println("Start X: " + road.getStartXPosition());
+//                System.out.println("Start Y: " + road.getStartYPosition());
+//                System.out.println("End X: " + road.getXFinish());
+//                System.out.println("End Y: " + road.getYFinish());
+//
+//
+//            }
             int numberOfCrossroads = crossroadList.size();
             Random randomSpawns = new Random();
             int chanceOfSpawning = randomSpawns.nextInt(11);
             if (chanceOfSpawning > 0) {
                 int spawnOptions = randomSpawns.nextInt(numberOfCrossroads + 1);
-                for (int spawnLocation = 0; spawnLocation < uniqueSpawnList.size(); spawnLocation++) {
+                for (int spawnLocation = 0; spawnLocation < uniqueSpawnList.size() - 1; spawnLocation++) {
+                    System.out.println("Spawn location: " +spawnLocation);
+                    System.out.println("Spawn options: "+spawnOptions);
+                    System.out.println("Unique spawn list size: " + uniqueSpawnList.size());
+
                     if (spawnLocation == spawnOptions) {
                         Car car = new Car(10, 10, uniqueSpawnList.get(spawnLocation).getStartXPosition(), uniqueSpawnList.get(spawnLocation).getStartYPosition(), 1, carID);
+                        System.out.println("Car "+ carID + " has been created at: " +car.getxPosition() + car.getyPosition());
                         carID += 1;
+                        while(keepDriving){
+                            for (Car value : cars) {
+                                if (value.getyPosition() <= 0) {
+                                    car.setDrivingDown(true);
+                                    car.setDrivingLeft(false);
+                                    car.setDrivingRight(false);
+                                    car.setDrivingUp(false);
+
+                                    car.setPreviousYPosition(car.getyPosition());
+                                    car.setSpeed(10);
+                                    car.driveY();
+                                } else if (value.getxPosition() >= 500) {
+                                    car.setDrivingDown(false);
+                                    car.setDrivingLeft(true);
+                                    car.setDrivingRight(false);
+                                    car.setDrivingUp(false);
+                                    car.setSpeed(-10);
+                                    car.driveY();
+                                } else if (value.getxPosition() <= 0) {
+                                    car.setDrivingDown(false);
+                                    car.setDrivingLeft(false);
+                                    car.setDrivingRight(true);
+                                    car.setDrivingUp(false);
+                                    car.setSpeed(10);
+                                    car.driveY();
+                                } else if (value.getyPosition() >= 500) {
+                                    car.setDrivingDown(false);
+                                    car.setDrivingLeft(false);
+                                    car.setDrivingRight(false);
+                                    car.setDrivingUp(true);
+                                    car.setSpeed(-10);
+                                    car.driveX();
+                                }
+                                for (Crossroads crossroads : crossroadList) {
+                                    if(car.isDrivingDown()){
+                                        keepDriving = car.getyPosition() + 10 != crossroads.getyIntercept() || car.getxPosition() != crossroads.getxIntercept();
+
+                                    }
+                                    else if(car.isDrivingUp()){
+                                        keepDriving = car.getyPosition() - 10 != crossroads.getyIntercept() || car.getxPosition() != crossroads.getxIntercept();
+                                    }
+                                    else if(car.isDrivingLeft()){
+                                        keepDriving = car.getxPosition() - 10 != crossroads.getxIntercept() || car.getyPosition() != crossroads.getxIntercept();
+                                    }
+                                    else if(car.isDrivingRight()){
+                                        keepDriving = car.getxPosition() + 10 != crossroads.getxIntercept() || car.getyPosition() != crossroads.getxIntercept();
+                                    }
+                                }
+
+                        }
+
+                            System.out.println(car.getxPosition() + car.getyPosition());
+
+                        }
+
                         for (Car value : cars) {
-                            if (value.getyPosition() <= 0) {
-                                car.setSpeed(0.1);
-                                car.driveY();
-                            } else if (value.getxPosition() >= 500) {
-                                car.setSpeed(-0.1);
-                                car.driveY();
-                            } else if (value.getxPosition() <= 0) {
-                                car.setSpeed(0.1);
-                                car.driveY();
-                            } else if (value.getyPosition() >= 500) {
-                                car.setSpeed(-0.1);
-                                car.driveX();
-                            }
+
+                            System.out.println("Car is at: " +value.getxPosition());
+                            System.out.println("Car is at: " +value.getyPosition());
 
                         }
                     }
                 }
 
             }
-            for (Car car : cars) {
-                System.out.println("Car x position is: " + car.getxPosition());
-            }
-            System.out.println("Unique spawn list is: " + uniqueSpawnList);
-            System.out.println("FROM ASSIGNMENT 2");
-            for (Road road : roads) {
-                System.out.println("Start X: " + road.getStartXPosition());
-                System.out.println("Start Y: " + road.getStartYPosition());
-                System.out.println("End X: " + road.getXFinish());
-                System.out.println("End Y: " + road.getYFinish());
 
+        }
+        else {
 
-            }
-
-        } else {
             runMode.setVisible(false);
             newRoad.setVisible(false);
             drawAllRoads();
@@ -164,7 +222,7 @@ public class Assignment2 extends JFrame implements ActionListener {
             System.out.println(drawnRoad.getXFinish() - drawnRoad.getStartXPosition());
             System.out.println(drawnRoad.getYFinish() - drawnRoad.getStartYPosition());
             getGraphics().drawLine(drawnRoad.getStartXPosition() + 108, drawnRoad.getStartYPosition() + 71, (drawnRoad.getXFinish()) + 108, (drawnRoad.getYFinish()) + 71);
-            System.out.println(drawnRoad.getStartXPosition() + " + " + drawnRoad.getStartYPosition() + " + " + drawnRoad.getXFinish() + " + " + drawnRoad.getStartYPosition());
+//            System.out.println(drawnRoad.getStartXPosition() + " + " + drawnRoad.getStartYPosition() + " + " + drawnRoad.getXFinish() + " + " + drawnRoad.getStartYPosition());
         }
     }
 
@@ -183,31 +241,35 @@ public class Assignment2 extends JFrame implements ActionListener {
             for (int j = 0; j < roads.size(); ++j) {
                 if (crossroadIndex != j) {
                     Road currentRoad = roads.get(j);
+
                     int xIntersect;
                     int yIntersect;
-                    if ((selectedRoad.getStartXPosition() <= currentRoad.getStartXPosition()) && (selectedRoad.getXFinish() >= currentRoad.getStartXPosition())) {
+
+                    if(currentRoad.getStartXPosition()<= selectedRoad.getStartXPosition() && selectedRoad.getStartXPosition() <= currentRoad.getStartXPosition() + currentRoad.getLength() && selectedRoad.getStartYPosition() <= currentRoad.getStartYPosition() && currentRoad.getStartYPosition() <= selectedRoad.getStartYPosition() + selectedRoad.getHeight()){
                         yIntersect = selectedRoad.getStartYPosition();
                         xIntersect = currentRoad.getStartXPosition();
-                        Crossroads crossroads = new Crossroads(xIntersect, yIntersect);
-                        crossroadList.add(crossroads);
-                    } else if (selectedRoad.getStartYPosition() <= currentRoad.getStartYPosition() && selectedRoad.getYFinish() >= currentRoad.getStartYPosition()) {
-                        yIntersect = currentRoad.getStartYPosition();
-                        xIntersect = selectedRoad.getStartXPosition();
-                        Crossroads crossroads = new Crossroads(xIntersect, yIntersect);
-                        crossroadList.add(crossroads);
-                    } else if ((selectedRoad.getStartXPosition() >= currentRoad.getStartXPosition()) && (selectedRoad.getXFinish() <= currentRoad.getStartXPosition())) {
-                        yIntersect = selectedRoad.getStartYPosition();
-                        xIntersect = currentRoad.getStartXPosition();
-                        Crossroads crossroads = new Crossroads(xIntersect, yIntersect);
-                        crossroadList.add(crossroads);
-                    } else if (selectedRoad.getStartYPosition() <= currentRoad.getStartYPosition() && selectedRoad.getYFinish() >= currentRoad.getStartYPosition()) {
-                        yIntersect = currentRoad.getStartYPosition();
-                        xIntersect = selectedRoad.getStartXPosition();
                         Crossroads crossroads = new Crossroads(xIntersect, yIntersect);
                         crossroadList.add(crossroads);
                     }
+//                    System.out.println("Current roads");
+//                    System.out.println(currentRoad.getHeight());
+//                    System.out.println(currentRoad.getLength());
+//                    System.out.println(currentRoad.getStartXPosition());
+//                    System.out.println(currentRoad.getStartYPosition());
                 }
             }
+//            System.out.println("Selected roads ");
+//            System.out.println(selectedRoad.getHeight());
+//            System.out.println(selectedRoad.getLength());
+//            System.out.println(selectedRoad.getStartXPosition());
+//            System.out.println(selectedRoad.getStartYPosition());
+
+        }
+        System.out.println("Roads: " + roads);
+        System.out.println("Crossroads: " +crossroadList);
+        for (Crossroads crossroads : crossroadList) {
+            System.out.println("Crossroad x: " + crossroads.getxIntercept());
+            System.out.println("Crossroad x: " + crossroads.getyIntercept());
         }
     }
 
@@ -215,7 +277,7 @@ public class Assignment2 extends JFrame implements ActionListener {
         super.paint(g);
         g.setColor(Color.blue);
         for (Car car : cars) {
-            g.drawRect(car.getyPosition(), car.getxPosition(), 10, 10);
+            g.drawLine(car.getxPosition(), car.getyPosition(), car.getxPosition() + 10, car.getyPosition() + 10);
         }
 
     }

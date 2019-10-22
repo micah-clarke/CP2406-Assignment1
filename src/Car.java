@@ -17,6 +17,62 @@ public class Car {
     private int width;
     private double speed = 1;
 
+    private boolean drivingUp;
+    private boolean drivingDown;
+
+    boolean isDrivingUp() {
+        return drivingUp;
+    }
+
+    void setDrivingUp(boolean drivingUp) {
+        this.drivingUp = drivingUp;
+    }
+
+    boolean isDrivingDown() {
+        return drivingDown;
+    }
+
+    void setDrivingDown(boolean drivingDown) {
+        this.drivingDown = drivingDown;
+    }
+
+    boolean isDrivingLeft() {
+        return drivingLeft;
+    }
+
+    void setDrivingLeft(boolean drivingLeft) {
+        this.drivingLeft = drivingLeft;
+    }
+
+    boolean isDrivingRight() {
+        return drivingRight;
+    }
+
+    void setDrivingRight(boolean drivingRight) {
+        this.drivingRight = drivingRight;
+    }
+
+    private boolean drivingLeft;
+    private boolean drivingRight;
+    public int getPreviousXPosition() {
+        return previousXPosition;
+    }
+
+    public void setPreviousXPosition(int previousXPosition) {
+        this.previousXPosition = previousXPosition;
+    }
+
+    public int getPreviousYPosition() {
+        return previousYPosition;
+    }
+
+    void setPreviousYPosition(int previousYPosition) {
+        this.previousYPosition = previousYPosition;
+    }
+
+    private int previousXPosition;
+    private int previousYPosition;
+
     public int getCarID() {
         return carID;
     }

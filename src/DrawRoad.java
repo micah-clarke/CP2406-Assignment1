@@ -34,8 +34,16 @@ class DrawRoad extends JFrame {
                         isVertical();
                         getGraphics().drawLine(pointStartX, pointStartY, finalEndX, finalEndY);
                         Assignment2.reDraw();
-                        int length = finalEndX - pointStartX;
-                        int height = finalEndY - pointStartY;
+                        int length = Math.abs(finalEndX - pointStartX);
+                        int height = Math.abs(finalEndY - pointStartY);
+                        if(finalEndX < pointStartX){
+                            pointStartX = finalEndX;
+                            finalEndX = pointStartX + length;
+                        }
+                        if(finalEndY < pointStartY){
+                            pointStartY = finalEndY;
+                            pointEndY = pointStartY + height;
+                        }
                         Road road = new Road(pointStartX, pointStartY, length, height, roadID);
                         Assignment2.roads.add(road);
                         roadID += 1;

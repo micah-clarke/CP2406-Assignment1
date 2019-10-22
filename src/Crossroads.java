@@ -12,7 +12,7 @@ public class Crossroads {
     private boolean east;
     private boolean west;
 
-    public int getxIntercept() {
+    int getxIntercept() {
         return xIntercept;
     }
 
@@ -20,7 +20,7 @@ public class Crossroads {
         this.xIntercept = xIntercept;
     }
 
-    public int getyIntercept() {
+    int getyIntercept() {
         return yIntercept;
     }
 
