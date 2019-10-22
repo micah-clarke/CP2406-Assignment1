@@ -19,7 +19,7 @@ public class Assignment2 extends JFrame implements ActionListener {
     private static ArrayList<Road> uniqueSpawnList = new ArrayList<>();
     private int carID = 1;
     private int spawnRoadID = 1;
-    private boolean keepDriving;
+    private boolean keepDriving = true;
 
 
 
@@ -102,7 +102,7 @@ public class Assignment2 extends JFrame implements ActionListener {
         } else if (source == startRun) {
             uniqueSpawnList.clear();
             for (Road currentRoad : roads) {
-                if (currentRoad.getStartYPosition() >= 500 || currentRoad.getStartXPosition() <= 0 || currentRoad.getStartYPosition() <= 0 || currentRoad.getStartXPosition() >= 500 || currentRoad.getXFinish() <= 0 || currentRoad.getXFinish() >= 500 || currentRoad.getYFinish() <= 0 || currentRoad.getYFinish() >= 500) {
+                if (currentRoad.getStartYPosition() >= 500 || currentRoad.getStartYPosition() <= 0 || currentRoad.getStartXPosition() <= 0 || currentRoad.getStartXPosition() >= 500 || currentRoad.getXFinish() <= 0 || currentRoad.getXFinish() >= 500 || currentRoad.getYFinish() <= 0 || currentRoad.getYFinish() >= 500) {
                     Road road = new Road(currentRoad.getStartXPosition(), currentRoad.getStartYPosition(), currentRoad.getXFinish(), currentRoad.getYFinish(), spawnRoadID);
                     spawnRoadID += 1;
                     uniqueSpawnList.add(road);
@@ -113,7 +113,7 @@ public class Assignment2 extends JFrame implements ActionListener {
             for (Car car : cars) {
                 System.out.println("Car x position is: " + car.getxPosition());
             }
-//            System.out.println("Unique spawn list is: " + uniqueSpawnList);
+            System.out.println("Unique spawn list is: " + uniqueSpawnList);
 //            System.out.println("FROM ASSIGNMENT 2");
 //            for (Road road : roads) {
 //                System.out.println("Start X: " + road.getStartXPosition());
@@ -126,35 +126,37 @@ public class Assignment2 extends JFrame implements ActionListener {
             int numberOfCrossroads = crossroadList.size();
             Random randomSpawns = new Random();
             int chanceOfSpawning = randomSpawns.nextInt(11);
+            System.out.println("Chance of spawning: "+chanceOfSpawning);
             if (chanceOfSpawning > 0) {
-                int spawnOptions = randomSpawns.nextInt(numberOfCrossroads + 1);
+                int spawnOptions = randomSpawns.nextInt(uniqueSpawnList.size());
+                System.out.println("Spawn Options: " + spawnOptions
+                );
                 for (int spawnLocation = 0; spawnLocation < uniqueSpawnList.size() - 1; spawnLocation++) {
                     System.out.println("Spawn location: " +spawnLocation);
                     System.out.println("Spawn options: "+spawnOptions);
                     System.out.println("Unique spawn list size: " + uniqueSpawnList.size());
-
                     if (spawnLocation == spawnOptions) {
-                        Car car = new Car(10, 10, uniqueSpawnList.get(spawnLocation).getStartXPosition(), uniqueSpawnList.get(spawnLocation).getStartYPosition(), 1, carID);
-                        System.out.println("Car "+ carID + " has been created at: " +car.getxPosition() + car.getyPosition());
+                        Car car = new Car(10, 10, uniqueSpawnList.get(spawnLocation).getLength(), uniqueSpawnList.get(spawnLocation).getHeight(), 1, carID);
+                        System.out.println("Car "+ carID + " has been created at: x: " +car.getxPosition() + " y: "+car.getyPosition());
                         carID += 1;
                         while(keepDriving){
                             for (Car value : cars) {
                                 if (value.getyPosition() <= 0) {
-                                    car.setDrivingDown(true);
-                                    car.setDrivingLeft(false);
-                                    car.setDrivingRight(false);
-                                    car.setDrivingUp(false);
+                                    value.setDrivingDown(true);
+                                    value.setDrivingLeft(false);
+                                    value.setDrivingRight(false);
+                                    value.setDrivingUp(false);
 
-                                    car.setPreviousYPosition(car.getyPosition());
-                                    car.setSpeed(10);
-                                    car.driveY();
+                                    value.setPreviousYPosition(value.getyPosition());
+                                    value.setSpeed(10);
+                                    value.driveY();
                                 } else if (value.getxPosition() >= 500) {
-                                    car.setDrivingDown(false);
-                                    car.setDrivingLeft(true);
-                                    car.setDrivingRight(false);
-                                    car.setDrivingUp(false);
-                                    car.setSpeed(-10);
-                                    car.driveY();
+                                    value.setDrivingDown(false);
+                                    value.setDrivingLeft(true);
+                                    value.setDrivingRight(false);
+                                    value.setDrivingUp(false);
+                                    value.setSpeed(-10);
+                                    value.driveY();
                                 } else if (value.getxPosition() <= 0) {
                                     car.setDrivingDown(false);
                                     car.setDrivingLeft(false);
@@ -163,32 +165,32 @@ public class Assignment2 extends JFrame implements ActionListener {
                                     car.setSpeed(10);
                                     car.driveY();
                                 } else if (value.getyPosition() >= 500) {
-                                    car.setDrivingDown(false);
-                                    car.setDrivingLeft(false);
-                                    car.setDrivingRight(false);
-                                    car.setDrivingUp(true);
-                                    car.setSpeed(-10);
-                                    car.driveX();
+                                    value.setDrivingDown(false);
+                                    value.setDrivingLeft(false);
+                                    value.setDrivingRight(false);
+                                    value.setDrivingUp(true);
+                                    value.setSpeed(-10);
+                                    value.driveX();
                                 }
                                 for (Crossroads crossroads : crossroadList) {
-                                    if(car.isDrivingDown()){
-                                        keepDriving = car.getyPosition() + 10 != crossroads.getyIntercept() || car.getxPosition() != crossroads.getxIntercept();
+                                    if(value.isDrivingDown()){
+                                        keepDriving = value.getyPosition() + 10 != crossroads.getyIntercept() && value.getxPosition() == crossroads.getxIntercept();
 
                                     }
-                                    else if(car.isDrivingUp()){
-                                        keepDriving = car.getyPosition() - 10 != crossroads.getyIntercept() || car.getxPosition() != crossroads.getxIntercept();
+                                    else if(value.isDrivingUp()){
+                                        keepDriving = value.getyPosition() - 10 != crossroads.getyIntercept() && value.getxPosition() == crossroads.getxIntercept();
                                     }
-                                    else if(car.isDrivingLeft()){
-                                        keepDriving = car.getxPosition() - 10 != crossroads.getxIntercept() || car.getyPosition() != crossroads.getxIntercept();
+                                    else if(value.isDrivingLeft()){
+                                        keepDriving = value.getxPosition() - 10 != crossroads.getxIntercept() && value.getyPosition() == crossroads.getxIntercept();
                                     }
-                                    else if(car.isDrivingRight()){
-                                        keepDriving = car.getxPosition() + 10 != crossroads.getxIntercept() || car.getyPosition() != crossroads.getxIntercept();
+                                    else if(value.isDrivingRight()){
+                                        keepDriving = value.getxPosition() + 10 != crossroads.getxIntercept() && value.getyPosition() == crossroads.getxIntercept();
                                     }
                                 }
-
+                                System.out.println("Car x position: "+value.getxPosition());
+                                System.out.println("Car y position: " + value.getyPosition());
                         }
 
-                            System.out.println(car.getxPosition() + car.getyPosition());
 
                         }
 
